@@ -19,7 +19,7 @@ class CommonRegionAdmin(MPTTModelAdmin, ExportExcelMixin):
     search_fields = ('region_name',)
     fieldsets = [(None, {'fields': ('region_name', 'region_nbr', 'par_region', 'province_nbr')})]
     actions = ['export_as_excel']  # 自定义动作
-    # change_list_template = 'admin/config/commonregion/mptt_change_list.html' mptt如果要重写的话要在这边设置模板路径
+    # change_list_template = '/config/commonregion/mptt_change_list.html' mptt如果要重写的话要在这边设置模板路径
 
 
 # 主题域配置
@@ -40,7 +40,7 @@ class SysClassAdmin(admin.ModelAdmin):
 
     def oper(self, obj):
         # 参数名称和表字段名对应上，跳转到子页面，就可以自动添加上查询条件
-        return mark_safe("<a href='/admin/config/attrspec?sys_class_id=%d' target='_self'>属性</a>"
+        return mark_safe("<a href='/config/attrspec?sys_class_id=%d' target='_self'>属性</a>"
                          % obj.class_id)
 
     oper.short_description = '操作'
