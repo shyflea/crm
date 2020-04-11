@@ -1,0 +1,44 @@
+{% extends "admin/actions.html" %}
+{% load i18n %}
+{% load admin_urls static admin_list simpletags %}
+
+
+{% block actions-counter %}
+
+    {% if actions_selection_counter %}
+        <span class="action-counter" data-actions-icnt="{{ cl.result_list|length }}">{{ selection_note }}</span>
+        {% if cl.result_count != cl.result_list|length %}
+            <span class="all">{{ selection_note_all }}</span>
+            <span class="question">
+            <a href="#"
+               title="{% trans "Click here to select the objects across all pages" %}">{% blocktrans with cl.result_count as total_count %}
+                Select all {{ total_count }} {{ module_name }}{% endblocktrans %}</a>
+        </span>
+            <span class="clear">
+            <a href="#" onclick="unSelect()">{% trans "Clear selection" %}</a>
+        </span>
+        {% endif %}
+    {% endif %}
+
+
+{#    <div id='app'>#}
+{#        <el-button type="button" @click="dialogFormVisible = true">导入</el-button>#}
+{##}
+{#        <el-dialog title="收货地址" :visible.sync="dialogFormVisible">#}
+{#            <a href="/static/admin/config/commonregion/模板.xlsx"#}
+{#               style="padding-left: 30px;padding-right: 20px">下载导入模板</a>#}
+{#            <el-upload :file-list="uploadFiles" action="alert" :auto-upload="false" multiple#}
+{#                       :on-change="loadJsonFromFile">#}
+{#                <el-button size="small" type="primary">选择</el-button>#}
+{#            </el-upload>#}
+{#            <div slot="footer" class="dialog-footer">#}
+{#                <el-button @click="dialogFormVisible = false">取 消</el-button>#}
+{#                <el-button type="primary" @click="loadJsonFromFileConfirmed">确 定</el-button>#}
+{#            </div>#}
+{#        </el-dialog>#}
+{#    </div>#}
+{#      <script type="text/javascript" src="/static/admin/config/commonregion/js/actions.js"></script>#}
+{#    <script type="text/javascript" src="{% static '/admin/simpleui-x/js/vue.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static '/admin/simpleui-x/elementui/index.js' %}"></script>#}
+
+{% endblock %}

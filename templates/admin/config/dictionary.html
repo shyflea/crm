@@ -1,0 +1,41 @@
+<!--数据字典页面-->
+{% extends "admin/common/base.html" %}
+{% block style %}
+    <style>
+        #tab-sysDomain {
+            padding-left: 30px
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        <template>
+            <el-tabs v-model="activeName">
+                <el-tab-pane label="主题域配置" name="sysDomain" style="">
+                    <div class="iframe-wrap">
+                        <iframe src="/config/sysdomain" style="height:700px"></iframe>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="主数据配置" name="sysClass">
+                    <div class="iframe-wrap">
+                        <iframe src="/config/sysclass/" style="height:700px"></iframe>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </template>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    activeName: 'sysClass'
+                };
+            },
+        });
+    </script>
+{% endblock %}

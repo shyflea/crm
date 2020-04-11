@@ -1,0 +1,113 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block content %}
+    <style type="text/css">
+        #toolbar {
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            background: #f8f8f8;
+            color: #666;
+        }
+
+        #cacheForm {
+            padding: 0px 20px;
+        }
+
+        .actions {
+            padding: 10px;
+            background: #fff;
+            border-top: none;
+            border-bottom: none;
+            line-height: 24px;
+            color: #999;
+        }
+
+        .clearBtn {
+            margin-left: 30px;
+        }
+    </style>
+    <div id="app">
+        <div id="toolbar">
+            <form id='searchForm' action="/common/cache/" method="get">
+                <el-input class="simpleui-form-item"
+                          clearable
+                          name="searchInput"
+                          id="searchInput"
+                          placeholder="请输入缓存类型或缓存对象"
+                          prefix-icon="el-icon-search"
+                          v-model="searchInput"
+                          @keyup.enter.native="searchCache()">
+                </el-input>
+                <el-button type="primary" icon="el-icon-search" @click="searchCache()">搜索</el-button>
+            </form>
+        </div>
+        <form id='cacheForm' action="/common/cache/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="cacheName" id="cacheName"/>
+            <div class="actions">
+                <el-button class="el-button--danger" v-on:click="clearCache()">清除缓存</el-button>
+                <label>缓存类型：</label>{{ caches | length }}
+            </div>
+
+            <el-collapse accordion>
+                {% for key_type,cache in caches.items %}
+                    <el-collapse-item>
+                        <template slot="title">
+                            <el-button icon="el-icon-delete" circle
+                                       v-on:click="clearCache('{{ key_type }}')"></el-button>
+
+                            <el-badge :value="{{ cache | length }}" class="item clearBtn">
+                                <strong>   {{ key_type }}  </strong>
+                            </el-badge>
+
+                        </template>
+
+                        <el-table
+                                :data="{{ cache }}"
+                                style="width: 100%">
+                            <el-table-column
+                                    prop="index"
+                                    label="序号"
+                                    width="50">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="cache_key"
+                                    label="缓存对象"
+                                    width="250">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="value"
+                                    label="缓存值"
+                                     >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="eff_date"
+                                    label="生效时间"
+                                    width="180">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="exp_date"
+                                    label="失效时间"
+                                    width="180">
+                            </el-table-column>
+                            <el-table-column label="操作"
+                                 width="100">
+                                <template slot-scope="scope">
+                                    <el-button
+                                            size="mini"
+                                            type="danger"
+                                            @click="clearCache(scope.row.key)">删除
+                                    </el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-collapse-item>
+                {% endfor %}
+            </el-collapse>
+        </form>
+    </div>
+    <script src="{% static '/admin/common/cache/js/cache.js' %}"></script>
+{% endblock %}

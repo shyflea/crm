@@ -1,0 +1,64 @@
+<!--自定义页面基础页-->
+{% load i18n static simpletags %}
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" href="{% static '/admin/simpleui-x/css/index.css' %}">
+    <link rel="stylesheet" href="{% static '/admin/simpleui-x/elementui/theme-chalk/index.css' %}">
+    <link rel="stylesheet" href="{% static '/admin/simpleui-x/fontawesome-free-5.8.1-web/css/all.min.css' %}">
+    {% block style %}
+        <style>
+            #tab-privilege {
+                padding-left: 30px
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div id="app">
+        <template>
+            <el-tabs v-model="activeName">
+                <el-tab-pane label="权限配置" name="privilege" style="">
+                    <div class="iframe-wrap">
+                        <iframe src="/ops/privilege" style="height:700px"></iframe>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="岗位配置" name="post">
+                    <div class="iframe-wrap">
+                        <iframe src="/ops/systempost/" style="height:700px"></iframe>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="角色配置" name="role">
+                    <div class="iframe-wrap">
+                        <iframe src="/ops/systemroles/" style="height:700px"></iframe>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </template>
+    </div>
+{% endblock %}
+</body>
+<script type="text/javascript" src="{% static '/admin/simpleui-x/js/vue.min.js' %}"></script>
+<script type="text/javascript" src="{% static '/admin/simpleui-x/elementui/index.js' %}"></script>
+{% block script %}
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    activeName: 'privilege'
+                };
+            },
+        });
+    </script>
+{% endblock %}
+</html>
+

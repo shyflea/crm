@@ -1,0 +1,47 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+    <fieldset class="module aligned">
+        <h2>岗位&角色</h2>
+        <div class="form-row field-post">
+            <div>
+                <label class="required">岗位</label>
+                <select id="postSelect" name="post">
+                    <option>请选择</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="form-row field-role">
+            <div>
+                <label>角色</label>
+                <div id="roleApp">
+                    <template>
+                        <el-checkbox-group
+                                v-model="checkedRoles"
+                                :min="0">
+                            <el-checkbox v-for="(role,index) in systemRoles" :label="role.sys_role_name"
+                                         :value="role.sys_role_id"
+                                         :key="role.sys_role_id">{{ role.sys_role_name }}</el-checkbox>
+                        </el-checkbox-group>
+                    </template>
+                    <input type="hidden" name="roles" v-model="checkedRoles"/>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="staff_id" value="{{ staff_id }}"> <!--获取组织已拥有的岗位需要用到org_id，因此在页面加载的时候需要先预留-->
+    </fieldset>
+{% endblock %}
+
+{% block inline_field_sets %}
+    {% for inline_admin_formset in inline_admin_formsets %}
+        {% include inline_admin_formset.opts.template %}
+    {% endfor %}
+    <p style="padding-left: 20px;color: red">初始化密码为系统账号！</p>
+    <script type="text/javascript" src="/static/admin/ops/staff/js/change_form.js"></script>
+{% endblock %}
+
+
+
+

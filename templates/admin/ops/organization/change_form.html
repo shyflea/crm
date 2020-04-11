@@ -1,0 +1,27 @@
+{% extends "admin/change_form.html" %}
+
+
+{% block inline_field_sets %}
+
+
+    <fieldset class="module">
+        <h2>组织使用岗位</h2>
+        <div id="app">
+            <template>
+                <el-transfer
+                        :titles="['可选岗位', '已选岗位']"
+                        filterable
+                        :filter-method="filterMethod"
+                        filter-placeholder="请输入权限名称"
+                        v-model="value" :data="data"></el-transfer>
+            </template>
+            <input type="hidden" name="posts"  v-model="value" />
+        </div>
+    </fieldset>
+    <input type="hidden" id="org_id" value="{{ org_id }}"> <!--获取组织已拥有的岗位需要用到org_id，因此在页面加载的时候需要先预留-->
+    <script type="text/javascript" src="/static/admin/ops/organization/js/change_form.js"></script>
+{% endblock %}
+
+
+
+

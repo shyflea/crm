@@ -1,0 +1,67 @@
+{% extends "admin/change_form.html" %}
+
+
+
+{% block content %}
+    <style type="text/css">
+        .inline-group .tabular td.original p {
+            margin-top: -33px;
+        }
+
+        .page-header {
+            padding: 10px;
+        }
+
+        .el-transfer-panel__list.is-filterable {
+            height: 400px
+        }
+        .el-transfer-panel__body{
+             height: 450px
+        }
+
+    </style>
+    <div id="content-main" class="form-main">
+        <div class="page-header">
+            <el-page-header @back="goBack" content="{{ title }}"/>
+        </div>
+        <div id="app">
+            <form {% if has_file_field %}enctype="multipart/form-data" {% endif %} method="post"
+                  id="grant_priv_form" novalidate>{% csrf_token %}
+
+                <template>
+                    <el-transfer
+                            :titles="['可选列表', '已选权限']"
+                            filterable
+                            :filter-method="filterMethod"
+                            filter-placeholder="请输入权限名称"
+                            v-model="value" :data="data"></el-transfer>
+                </template>
+
+                <div class="submit-row">
+                    <input id="grantObjId" type="hidden" value="{{ grant_obj_id }}">
+                    <input id="grantObjType" type="hidden" value="{{ grant_obj_type }}"> <!--系统工号、岗位、角色三种授权类型-->
+                    <input class="el-button el-button--primary" value="保存" name="_save" type="button"
+                           v-on:click='savePrivs'>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/admin/ops/grant_priv.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '.page-header',
+            methods: {
+                goBack: function () {
+                    window.location.href = '{{main_url}}'
+                }
+            }
+        });
+        if (document.getElementById('alert')) {
+            new Vue({
+                el: '#alert'
+            })
+        }
+    </script>
+
+{% endblock %}
